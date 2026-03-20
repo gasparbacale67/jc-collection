@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JC Collection</title>
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="icono/gaviscon JC.jpeg">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Poppins', sans-serif; background: #f4f6f8; color: #222; scroll-behavior: smooth; }
+
+/* NAV */
+nav { position: sticky; top: 0; background: #002244; display: flex; justify-content: space-between; align-items: center; padding: 12px 25px; z-index: 1200; flex-wrap: wrap; }
+.brand-title { color: white; font-weight: 800; font-size: 18px; }
+.nav-links a { color: white; text-decoration: none; margin-left: 18px; font-weight: 600; }
+
+/* HEADER */
+header {  min-height: 60vh;               /* altura mínima */
+  height: auto;                    /* se adapta al contenido */
+  padding: 40px 15px;              /* espacio interno arriba/abajo y lados */
+  background: url("Img/tienda.jpg") center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  position: relative;              /* necesario para overlay */
+  overflow: hidden;                /* evita que el overlay se salga */
+}
+
+/* Overlay oscuro */
+header::before {
+  content: "";
+  position: absolute;
+  inset: 0;                        /* top, right, bottom, left = 0 */
+  background: rgba(0,0,0,0.5);     /* semitransparente */
+  z-index: 1;                       /* debajo del contenido */
+}
+
+/* Contenido dentro del header */
+.hero {
+  position: relative;
+  z-index: 2;                       /* encima del overlay */
+}
+
+.hero h1 {
+  font-size: clamp(26px, 6vw, 48px);
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  font-size: clamp(14px, 3vw, 20px);
+}
+
+/* Botón principal dentro del header */
+.btn-main {
+  display: inline-block;
+  margin-top: 20px;
+  background: #ffcc00;
+  color: #002244;
+  padding: 12px 25px;
+  border-radius: 8px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero h1 { font-size: 36px; }
+  .hero p { font-size: 18px; }
+  header { padding: 30px 15px; }
+}
+
+@media (max-width: 480px) {
+  .hero h1 { font-size: 28px; }
+  .hero p { font-size: 16px; }
+  header::before { background: rgba(0,0,0,0.3); }
+  header { padding: 20px 10px; }
+}
+
+/* PRODUCTOS */
+.container { 
+  width: 95%; 
+  max-width: 1150px; 
+  margin: auto; 
+}
+
+.section-title { 
+  text-align: center; 
+  margin: 50px 0 30px; 
+  font-size: 32px; 
+  color: #003366; 
+}
+
+.productos { 
+  display: grid; 
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); 
+  gap: 22px; 
+  margin-bottom: 50px; 
+}
+
+.card {
+  background: #1f1f1f; 
+  color: white; 
+  border-radius: 12px; 
+  overflow: hidden; 
+  cursor: pointer; 
+  transition: transform 0.3s, box-shadow 0.3s; /* animación más suave */
+}
+
+.card:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* Contenido interno de las tarjetas */
+.card img { 
+  width: 100%; 
+  height: 300px; 
+  object-fit: cover; 
+}
+
+.card-body { 
+  padding: 15px; 
+  text-align: center; 
+}
+
+.card h3 { 
+  color: #ffcc00; 
+  margin-bottom: 10px; 
+}
+
+.extra-info { 
+  max-height: 0; 
+  opacity: 0; 
+  overflow: hidden; 
+  transition: .4s; 
+}
+
+.card.active .extra-info { 
+  max-height: 120px; 
+  opacity: 1; 
+  margin-top: 10px; 
+}
+
+.price { 
+  font-size: 22px; 
+  font-weight: 800; 
+  color: #ffee00; 
+}
+
+.btn-buy { 
+  display: inline-block; 
+  margin-top: 10px; 
+  background: #ffcc00; 
+  color: #002244; 
+  padding: 8px 15px; 
+  border-radius: 6px; 
+  text-decoration: none; 
+  font-weight: 800; 
+}
+
+/* PEDIDO */
+.blue-area { background: #0b63c6; color: white; padding: 40px 0; }
+.card-form { background: white; padding: 20px; border-radius: 12px; max-width: 600px; margin: auto; color: #333; }
+.card-form input, .card-form select { width: 100%; padding: 10px; margin: 10px 0; border-radius: 6px; border: 1px solid #ccc; }
+.card-form button { width: 100%; background: #ffee00; border: none; padding: 12px; font-weight: 800; cursor: pointer; }
+
+/* CONTACTO */
+.contacto { background: #002244; color: white; padding: 40px 0; text-align: center; }
+.contacto a img { width: 40px; margin: 10px; transition: 0.3s; }
+.contacto a img:hover { transform: scale(1.15); }
+
+/* FOOTER */
+footer { background: #001122; color: white; text-align: center; padding: 25px; font-size: 14px; }
+
+/* SCROLL */
+.scroll-btn { position: fixed; right: 20px; background: #ffcc00; color: #002244; border: none; padding: 12px 15px; border-radius: 50%; font-size: 18px; font-weight: 800; cursor: pointer; z-index: 1500; }
+#btnUp { bottom: 90px; } #btnDown { bottom: 30px; }
+
+/* WhatsApp flotante */
+.whatsapp-float { 
+  position: fixed; 
+  bottom: 20px; 
+  left: 20px; 
+  width: 55px; 
+  z-index: 2000; 
+}
+.whatsapp-float img { 
+  width: 100%; 
+}
+
+/* Ajustes responsive para móviles */
+@media (max-width: 480px) {
+  .whatsapp-float {
+    width: 45px;      /* un poco más pequeño */
+    bottom: 15px;     /* espacio desde abajo */
+    left: 15px;       /* espacio desde la izquierda */
+  }
+}
+
+/* RESPONSIVE */
+@media (max-width: 480px) {
+  .hero h1 { font-size: 28px; }
+  .productos { gap: 15px; }
+  .card img { height: 200px; }
+  nav { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .nav-links a { margin-left: 0; margin-top: 8px; display: block; }
+}
+@media (min-width: 481px) and (max-width: 1024px) {
+  .hero h1 { font-size: 36px; }
+  .card img { height: 250px; }
+  .nav-links a { margin-left: 12px; }
+}
+/* TODO TU CSS ACTUAL */
+/* 👇 BOTÓN */
+.menu-toggle {
+  display: none;
+}
+
+/* 👇 MENÚ MÓVIL */
+@media (max-width: 768px) {
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .nav-links {
+    width: 100%;
+    display: none; /* 🔴 oculto */
+    flex-direction: column;
+  }
+
+  .nav-links.active {
+    display: flex; /* 🟢 se muestra al tocar ☰ */
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <img src="icono/logo JC.jpeg" alt="Logo JC Collection" style="width:55px;height:55px;background:white;padding:4px;border-radius:10px;">
+    <div class="brand-title">JC Collection</div>
+  </div>
+
+  <button class="menu-toggle">☰</button>
+
+  <div class="nav-links">
+    <a href="#inicio">Inicio</a>
+    <a href="#productos">Productos</a>
+    <a href="#reserva">Reserva</a>
+    <a href="#pedido">Pedido</a>
+    <a href="#contacto">Contacto</a>
+  </div>
+</nav>
+
+<!-- HEADER -->
+<header id="inicio">
+  <div class="hero">
+    <h1>JC Collection</h1>
+    <p>Tecnología, moda y accesorios de calidad</p>
+  </div>
+</header>
+
+<!-- PRODUCTOS -->
+<main class="container">
+  <h2 class="section-title" id="productos">Productos Destacados</h2>
+  <div class="productos"></div>
+</main>
+
+<!-- PEDIDO -->
+<section class="blue-area" id="pedido">
+  <div class="card-form">
+    <h2 style="text-align:center;margin-bottom:15px;">Realiza tu pedido</h2>
+    <form onsubmit="enviarWhatsApp(event)">
+      <input type="text" id="nombre" placeholder="Nombre completo" required>
+      <input type="text" id="pais" placeholder="País" required>
+      <input type="text" id="ciudad" placeholder="Ciudad" required>
+      <input type="tel" id="telefono" placeholder="Número de teléfono" required>
+      <select id="producto" required>
+        <option value="">Selecciona tu pedido</option>
+      </select>
+      <button type="submit">Realizar compra</button>
+    </form>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section class="contacto" id="contacto">
+  <h2>Contacto</h2>
+  <p style="margin-top:10px;font-size:18px">📞 +34 632 74 88 71</p>
+  <p style="font-size:18px">📍 Barcelona, España</p>
+  <p style="font-size:18px">✉️ jcollection509@gmail.com</p>
+  <div>
+    <a href="https://www.facebook.com/jccollection" target="_blank" rel="noopener noreferrer"><img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook"></a>
+    <a href="https://www.instagram.com/jccollection2026/" target="_blank" rel="noopener noreferrer"><img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram"></a>
+    <a href="https://wa.me/34632748871" target="_blank" rel="noopener noreferrer"><img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp"></a>
+    <a href="https://www.tiktok.com/@jc.collection2026" target="_blank" rel="noopener noreferrer"><img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" alt="TikTok"></a>
+    <a href="mailto:jccollection@email.com"><img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Email"></a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>© 2026 JC Collection | Todos los derechos reservados.</footer>
+
+<!-- SCROLL -->
+<button id="btnUp" class="scroll-btn">↑</button>
+<button id="btnDown" class="scroll-btn">↓</button>
+
+<!-- WhatsApp flotante -->
+<a href="https://wa.me/34632748871" class="whatsapp-float" target="_blank" rel="noopener noreferrer"><img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp"></a>
+
+<!-- SCRIPT -->
+<script>
+const productos = [
+  ["Tecnología Pro", "Img/tecnologia.jpg", "299"],
+  ["Smartphones", "Img/smartphones.jpg", "599"],
+  ["Relojes de Lujo", "Img/relojes.jpg", "85"],
+  ["Moda Urbana", "Img/moda.jpg", "45"],
+  ["Accesorios Premium", "Img/accesorios.jpg", "25"],
+  ["Chaquetas Style", "Img/chaquetas.jpg", "75"],
+  ["Calzado de Calidad", "Img/zapatos.jpg", "60"],
+  ["Bolsos Modernos", "Img/bolsos.jpg", "50"],
+  ["Gafas de Sol", "Img/gafas.jpg", "35"],
+  ["Perfumes Exclusivos", "Img/perfumes.jpg", "95"],
+  ["Joyería Fina", "Img/joyería.jpg", "120"],
+  ["Gorras JC", "Img/gorras.jpg", "20"]
+]
+
+const contenedorProductos = document.querySelector(".productos");
+const selectProducto = document.getElementById("producto");
+
+productos.forEach(p => {
+  const card = document.createElement("article");
+  card.classList.add("card");
+  card.innerHTML = `
+    <img src="${p[1]}" alt="${p[0]}">
+    <div class="card-body">
+      <h3>${p[0]}</h3>
+      <div class="extra-info">
+        <span class="price">$${p[2]}</span>
+        <a href="#pedido" class="btn-buy">Comprar ahora</a>
+      </div>
+    </div>
+  `;
+  contenedorProductos.appendChild(card);
+
+  const option = document.createElement("option");
+  option.value = p[0];
+  option.textContent = p[0];
+  selectProducto.appendChild(option);
+
+  card.addEventListener("click", function(e) {
+    if(e.target.tagName === "A") return;
+    document.querySelectorAll(".card").forEach(c => c.classList.remove("active"));
+    card.classList.toggle("active");
+  });
+
+  card.querySelector(".btn-buy").addEventListener("click", function() {
+    selectProducto.value = p[0];
+    document.getElementById("pedido").scrollIntoView({ behavior: "smooth" });
+  });
+});
+// Botones de scroll
+document.getElementById("btnUp").onclick = () => window.scrollTo({ top: 0, behavior: "smooth" });
+document.getElementById("btnDown").onclick = () => window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+
+// Función para enviar pedido por WhatsApp
+function enviarWhatsApp(e){
+  e.preventDefault();// evita que el formulario recargue la página
+
+  const nombre = document.getElementById("nombre").value;
+  const pais = document.getElementById("pais").value;
+  const ciudad = document.getElementById("ciudad").value;
+  const telefono = document.getElementById("telefono").value;
+  const producto = selectProducto.value;
+
+  const mensaje = `Hola, quiero realizar una compra:%0A
+Nombre: ${nombre}%0A
+País: ${pais}%0A
+Ciudad: ${ciudad}%0A
+Teléfono: ${telefono}%0A
+Pedido: ${producto}`;
+
+  alert("✅ Pedido enviado correctamente. En breve te contactaremos por WhatsApp.");
+  window.open(`https://wa.me/34632748871?text=${mensaje}`, '_blank');
+}
+</script>
+
+</body>
+</html>
